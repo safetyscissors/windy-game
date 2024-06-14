@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<style>
+			canvas {
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="coord"></div>
+		<canvas id="canvas"></canvas>
+		
+		<script>
+			const canvas = document.getElementById('canvas');
+			const ctx = canvas.getContext('2d');
+			
+			let img = new Image();
+			let drawing = false;
+			let startX, startY;
+			let endX, endY;
+			
+			img.onload = ()=> {
+				canvas.width = img.width;
+				canvas.height = img.height;
+				ctx.drawImage(img, 0, 0);
+			}
+			img.src = './temp/calibrate.jpg';
+			
+			canvas.addEventListener('mousedown', (e) => {
+				startX = e.offsetX;
+				startY = e.offsetY;
+				drawing = true;
+			});
+			
+			canvas.addEventListener('mousemove', (e) => {
+				if (drawing) {
+					ctx.drawImage(img, 0, 0);
+					ctx.beginPath();
+					endX = e.offsetX-startX
+					endY = e.offsetY-startY
+					ctx.rect(startX, startY, e.offsetX-startX, e.offsetY-startY);
+					ctx.strokeStyle = 'red'
+					ctx.lineWidth=2
+					ctx.stroke();
+				}
+			});
+			
+			canvas.addEventListener('mouseup', ()=> {
+				document.getElementById('coord').innerHTML = `[${startX}, ${startY}, ${endX}, ${endY}]`
+				drawing = false;
+			})
+			
+			canvas.addEventListener('mouseout', ()=> {
+				drawing = false;
+			})
+		</script>
+	</body>
+</html>

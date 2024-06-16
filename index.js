@@ -2922,6 +2922,7 @@ if (reversed == null) { reversed = false; }
 		// local vars
 		let elements = [];
 		let levelBanners = []
+		let gameStartTime = 0;
 		let webSocket = new WebSocket('ws://raspberrypi.local:8081');
 		
 		webSocket.onmessage = (event) => {
@@ -3118,6 +3119,13 @@ if (reversed == null) { reversed = false; }
 				}
 			}
 		
+			let currentGameTime = Date.now() - root.gameStartTime;
+		if (currentGameTime > 30*1000) {
+			level = 0
+			endTimeout = 1
+			console.log("EXITS", currentGameTime, root.gameStartTime)
+			
+		}
 			// end game timeout
 			if (endTimeout) {
 				// reset
@@ -3228,6 +3236,7 @@ if (reversed == null) { reversed = false; }
 		
 			advanceGameState();
 			scores = computeScore()
+		root.gameStartTime = 0;
 			//root.scoreInput.text = "score: " + score;
 		}
 		
@@ -3262,6 +3271,7 @@ if (reversed == null) { reversed = false; }
 			} else if (state == MENU_STATE) {
 				if (webSocket.readyState) {
 					webSocket.send('gameStart');
+					root.gameStartTime = Date.now()
 				}
 				state = GAME_STATE;
 			} else if (state == GAME_STATE) {
@@ -3513,27 +3523,27 @@ lib.properties = {
 	color: "#FFFFFF",
 	opacity: 1.00,
 	manifest: [
-		{src:"images/index_atlas_1.png?1718558808496", id:"index_atlas_1"},
-		{src:"sounds/weatherlines0a.mp3?1718558808596", id:"weatherlines0a"},
-		{src:"sounds/weatherlines0b.mp3?1718558808596", id:"weatherlines0b"},
-		{src:"sounds/weatherlines0c.mp3?1718558808596", id:"weatherlines0c"},
-		{src:"sounds/weatherlines0d.mp3?1718558808596", id:"weatherlines0d"},
-		{src:"sounds/weatherlines0e.mp3?1718558808596", id:"weatherlines0e"},
-		{src:"sounds/weatherlines1a.mp3?1718558808596", id:"weatherlines1a"},
-		{src:"sounds/weatherlines1b.mp3?1718558808596", id:"weatherlines1b"},
-		{src:"sounds/weatherlines1c.mp3?1718558808596", id:"weatherlines1c"},
-		{src:"sounds/weatherlines1d.mp3?1718558808596", id:"weatherlines1d"},
-		{src:"sounds/weatherlines2a.mp3?1718558808596", id:"weatherlines2a"},
-		{src:"sounds/weatherlines2b.mp3?1718558808596", id:"weatherlines2b"},
-		{src:"sounds/weatherlines2c.mp3?1718558808596", id:"weatherlines2c"},
-		{src:"sounds/weatherlines3a.mp3?1718558808596", id:"weatherlines3a"},
-		{src:"sounds/weatherlines3b.mp3?1718558808596", id:"weatherlines3b"},
-		{src:"sounds/weatherlines3c.mp3?1718558808596", id:"weatherlines3c"},
-		{src:"sounds/weatherlines4a.mp3?1718558808596", id:"weatherlines4a"},
-		{src:"sounds/weatherlines4b.mp3?1718558808596", id:"weatherlines4b"},
-		{src:"sounds/weatherlines4c.mp3?1718558808596", id:"weatherlines4c"},
-		{src:"sounds/weatherlines4d.mp3?1718558808596", id:"weatherlines4d"},
-		{src:"sounds/windNoise.mp3?1718558808596", id:"windNoise"}
+		{src:"images/index_atlas_1.png?1718573364380", id:"index_atlas_1"},
+		{src:"sounds/weatherlines0a.mp3?1718573364484", id:"weatherlines0a"},
+		{src:"sounds/weatherlines0b.mp3?1718573364484", id:"weatherlines0b"},
+		{src:"sounds/weatherlines0c.mp3?1718573364484", id:"weatherlines0c"},
+		{src:"sounds/weatherlines0d.mp3?1718573364484", id:"weatherlines0d"},
+		{src:"sounds/weatherlines0e.mp3?1718573364484", id:"weatherlines0e"},
+		{src:"sounds/weatherlines1a.mp3?1718573364484", id:"weatherlines1a"},
+		{src:"sounds/weatherlines1b.mp3?1718573364484", id:"weatherlines1b"},
+		{src:"sounds/weatherlines1c.mp3?1718573364484", id:"weatherlines1c"},
+		{src:"sounds/weatherlines1d.mp3?1718573364484", id:"weatherlines1d"},
+		{src:"sounds/weatherlines2a.mp3?1718573364484", id:"weatherlines2a"},
+		{src:"sounds/weatherlines2b.mp3?1718573364484", id:"weatherlines2b"},
+		{src:"sounds/weatherlines2c.mp3?1718573364484", id:"weatherlines2c"},
+		{src:"sounds/weatherlines3a.mp3?1718573364484", id:"weatherlines3a"},
+		{src:"sounds/weatherlines3b.mp3?1718573364484", id:"weatherlines3b"},
+		{src:"sounds/weatherlines3c.mp3?1718573364484", id:"weatherlines3c"},
+		{src:"sounds/weatherlines4a.mp3?1718573364484", id:"weatherlines4a"},
+		{src:"sounds/weatherlines4b.mp3?1718573364484", id:"weatherlines4b"},
+		{src:"sounds/weatherlines4c.mp3?1718573364484", id:"weatherlines4c"},
+		{src:"sounds/weatherlines4d.mp3?1718573364484", id:"weatherlines4d"},
+		{src:"sounds/windNoise.mp3?1718573364484", id:"windNoise"}
 	],
 	preloads: []
 };
